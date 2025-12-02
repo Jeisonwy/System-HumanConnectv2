@@ -27,14 +27,21 @@ pipeline {
 
         stage('Run Tests with Coverage') {
             steps {
-                sh 'docker-compose exec backend pytest --cov=. --cov-report=xml'
+                sh '''
+                    echo "Ejecutando pruebas con cobertura..."
+                    docker-compose exec backend pytest --cov=. --cov-report=xml
+                '''
             }
         }
 
         stage('Copy Coverage File') {
             steps {
                 echo 'Copiando coverage.xml desde el contenedor...'
-                sh 'docker cp backend:/app/coverage.xml ./coverage.xml'
+                sh '''
+                    CONTAINER_ID=$(docker-compose ps -q backend)
+                    docker cp $CONTAINER_ID:/app/coverage.xml ./coverage.xml
+                    echo "Archivo coverage.xml copiado exitosamente."
+                '''
             }
         }
 
@@ -44,6 +51,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'codecov-token', variable: 'CODECOV_TOKEN')]) {
                     sh '''
                         curl -s https://codecov.io/bash > codecov.sh
+                        chmod +x codecov.sh
                         bash codecov.sh -t $CODECOV_TOKEN -f coverage.xml
                     '''
                 }
@@ -52,7 +60,11 @@ pipeline {
     }
 
     post {
-        success { echo 'Pipeline completado con éxito.' }
-        failure { echo 'Fallo en el pipeline.' }
+        success {
+            echo 'Pipeline completado con éxito.'
+        }
+        failure {
+            echo 'Fallo en el pipeline.'
+        }
     }
 }
