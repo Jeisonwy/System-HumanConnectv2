@@ -2,15 +2,19 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copiar dependencias
+# Asegurar PYTHONPATH para que 'import app' funcione en contenedor
+ENV PYTHONPATH=/app
+
+# Copiar dependencias e instalarlas
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar todo el código
+# Copiar el código de la aplicación
 COPY . .
 
-# Exponer puerto
+# Exponer puerto (opcional)
 EXPOSE 5000
 
-# Ejecutar Flask como paquete
+# Ejecutar Flask (ajusta si tienes script distinto)
+# Si tu entrypoint es app.app (módulo que ejecuta run), manténlo; ejemplo:
 CMD ["python", "-m", "app.app"]

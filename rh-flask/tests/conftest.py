@@ -1,22 +1,24 @@
-import pytest
-from app import create_app
-import sys
 import os
-from app.extensions import db
+import sys
+import pytest
+
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
 
-sys.path.insert(0, BASE_DIR)
 
 from app import create_app
+from app.extensions import db
 
-@pytest.fixture()
-def client():
+@pytest.fixture(scope="function")
+def app():
+    """Crea la app en modo testing y monta una BD efímera para las pruebas."""
+    # Usar configuración de testing y DB en memoria para que las pruebas sean aisladas
     app = create_app()
     app.config["TESTING"] = True
-    return app.test_client()
-
-
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     with app.app_context():
         db.create_all()
