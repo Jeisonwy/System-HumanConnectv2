@@ -10,7 +10,7 @@ def test_crear_empleado(client):
         "departamento": "TI",
         "sueldo": 4500000,
         "correo": "carlos@example.com",
-        "contrasena": "1234"
+        "contrasena": "1234567"
     }
     res = client.post("/api/empleados/", json=data)
 
@@ -26,7 +26,7 @@ def test_obtener_empleado_por_id(client):
         "departamento": "Ventas",
         "sueldo": 4200000,
         "correo": "tati@example.com",
-        "contrasena": "abc"
+        "contrasena": "ab1231c"
     })
 
     res = client.get("/api/empleados/1")
@@ -41,7 +41,7 @@ def test_actualizar_empleado(client):
         "departamento": "Logística",
         "sueldo": 3800000,
         "correo": "luis@example.com",
-        "contrasena": "pass"
+        "contrasena": "pass123123"
     })
 
     # Actualizar
@@ -61,7 +61,7 @@ def test_eliminar_empleado(client):
         "departamento": "Compras",
         "sueldo": 3100000,
         "correo": "oscar@example.com",
-        "contrasena": "zzzz"
+        "contrasena": "zzzz33123123"
     })
 
     res = client.delete("/api/empleados/1")
@@ -75,7 +75,7 @@ def test_crear_empleado_correo_duplicado(client):
         "departamento": "TI",
         "sueldo": 5000000,
         "correo": "jorge@example.com",
-        "contrasena": "123"
+        "contrasena": "123123123"
     }
 
     client.post("/api/empleados/", json=data)
