@@ -2,7 +2,7 @@
 from flask import Blueprint, jsonify, request
 from app.extensions import db
 from app.models import Empleado
-from schemas import empleado_schema, empleados_schema
+from app.schemas import empleado_schema, empleados_schema
 from sqlalchemy.exc import IntegrityError
 
 # Definimos el blueprint con prefijo '/api/empleados'
