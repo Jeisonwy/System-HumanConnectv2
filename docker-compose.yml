@@ -18,7 +18,7 @@ services:
     # El uso de 'group_add' a este nivel es correcto si usas una versión compatible de Compose.
     # En versiones recientes de Compose, es una opción del servicio.
     group_add:
-      - "999" # Lo ponemos entre comillas para asegurar que se trata como una cadena.
+      - "0" # Lo ponemos entre comillas para asegurar que se trata como una cadena.
 
   frontend:
     build: ./rh-react
