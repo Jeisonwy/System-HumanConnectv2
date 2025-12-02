@@ -3,7 +3,6 @@ version: "3.9"
 services:
   frontend:
     build: ./rh-react
-    container_name: rh-frontend
     ports:
       - "5173:5173"
     depends_on:
@@ -15,7 +14,6 @@ services:
 
   backend:
     build: ./rh-flask
-    container_name: rh-backend
     ports:
       - "5000:5000"
     environment:
