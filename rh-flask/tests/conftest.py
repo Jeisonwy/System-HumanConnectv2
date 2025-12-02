@@ -29,3 +29,16 @@ def app():
 @pytest.fixture
 def client(app):
     return app.test_client()
+
+def db_session():
+    app = create_app()
+    app.config["TESTING"] = True
+
+    # Usar base de datos en memoria
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+
+    with app.app_context():
+        db.create_all()
+        yield db.session
+        db.session.remove()
+        db.drop_all()
