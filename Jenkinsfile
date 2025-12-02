@@ -24,7 +24,7 @@ pipeline {
         stage('Run Containers') {
             steps {
                 echo 'Levantando los contenedores...'
-                sh 'docker-compose up -d --force-recreate frontend backend db'
+                sh 'docker-compose up -d --force-recreate frontend backend'
             }
         }
 
