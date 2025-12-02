@@ -1,20 +1,6 @@
 version: "3.9"
 
 services:
-  jenkins:
-    image: jenkins/jenkins:lts
-    container_name: jenkins
-    privileged: true
-    user: root
-    ports:
-      - "8080:8080"
-      - "50000:50000"
-    volumes:
-      - jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/bin/docker:/usr/bin/docker
-    networks:
-      - app-network
 
   frontend:
     build: ./rh-react
@@ -30,11 +16,11 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - FLASK_ENV=development
-      - MYSQL_HOST=db
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=admin
-      - MYSQL_DB=empleados_db
+      FLASK_ENV: development
+      MYSQL_HOST: db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: admin
+      MYSQL_DB: empleados_db
     depends_on:
       - db
     networks:
@@ -56,8 +42,8 @@ services:
 
 volumes:
   db_data:
-  jenkins_home:
 
 networks:
   app-network:
     driver: bridge
+
