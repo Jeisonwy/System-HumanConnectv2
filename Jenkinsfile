@@ -6,42 +6,46 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
-                echo 'Clonando el repositorio...'
                 checkout scm
             }
         }
 
         stage('Build Images') {
             steps {
-                echo 'Construyendo las imágenes Docker...'
                 sh 'docker-compose build'
             }
         }
 
         stage('Run Containers') {
             steps {
-                echo 'Levantando los contenedores...'
                 sh 'docker-compose up -d --force-recreate frontend backend'
             }
         }
 
-        stage('Verify Services') {
+        stage('Run Tests with Coverage') {
             steps {
-                echo 'Verificando servicios activos...'
-                sh 'docker ps'
+                echo 'Ejecutando tests con coverage...'
+                sh 'docker-compose exec backend pytest --cov=. --cov-report=xml'
+            }
+        }
+
+        stage('Upload to Codecov') {
+            steps {
+                echo 'Enviando coverage a Codecov...'
+                withCredentials([string(credentialsId: 'codecov-token', variable: 'CODECOV_TOKEN')]) {
+                    sh '''
+                        curl -s https://codecov.io/bash > codecov.sh
+                        bash codecov.sh -t $CODECOV_TOKEN -f /app/coverage.xml
+                    '''
+                }
             }
         }
     }
 
     post {
-        success {
-            echo 'Despliegue completado correctamente.'
-        }
-        failure {
-            echo 'Error durante la ejecución del pipeline.'
-        }
+        success { echo 'Pipeline completado con éxito.' }
+        failure { echo 'Fallo en el pipeline.' }
     }
 }
