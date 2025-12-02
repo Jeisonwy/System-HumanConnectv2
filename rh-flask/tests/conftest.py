@@ -1,5 +1,5 @@
 import pytest
-from app import create_app 
+from app.app import create_app 
 import sys
 import os
 from app.extensions import db
