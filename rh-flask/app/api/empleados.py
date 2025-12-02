@@ -1,7 +1,7 @@
 # api/empleados.py
 from flask import Blueprint, jsonify, request
 from app.extensions import db
-from models import Empleado
+from app.models import Empleado
 from schemas import empleado_schema, empleados_schema
 from sqlalchemy.exc import IntegrityError
 
