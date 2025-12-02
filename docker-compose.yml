@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    privileged: true
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    networks:
+      - app-network
+
+  frontend:
+    build: ./rh-react
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    build: ./rh-flask
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - MYSQL_HOST=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DB=empleados_db
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: empleados_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+  jenkins_home:
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,10 @@
+/* estilo mínimo para que se vea presentable */
+body {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+  background-color: #0b1220;
+  color: #e6eef8;
+}
+.card {
+  background-color: #0f1724;
+}
