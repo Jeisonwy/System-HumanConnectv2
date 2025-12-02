@@ -15,10 +15,8 @@ services:
       - /usr/bin/docker:/usr/bin/docker
     networks:
       - app-network
-    # El uso de 'group_add' a este nivel es correcto si usas una versión compatible de Compose.
-    # En versiones recientes de Compose, es una opción del servicio.
     group_add:
-      - "0" # Lo ponemos entre comillas para asegurar que se trata como una cadena.
+      - "0"
 
   frontend:
     build: ./rh-react
@@ -59,7 +57,7 @@ services:
       - app-network
 
 volumes:
-  jenkins_home: # Debes definir este volumen nombrado aquí
+  jenkins_home:
   db_data:
 
 networks:
