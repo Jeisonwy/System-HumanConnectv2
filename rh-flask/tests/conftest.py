@@ -1,13 +1,10 @@
-# tests/conftest.py
-import pytest
-import app
-from extensions import db
 
-@pytest.fixture
-def app():
-    app = create_app(testing=True)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
-    app.config["TESTING"] = True
+import pytest
+import app  
+@pytest.fixture()
+def client():
+    app.app.config["TESTING"] = True
+    return app.app.test_client()
 
     with app.app_context():
         db.create_all()
