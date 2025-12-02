@@ -1,5 +1,5 @@
-from models import Empleado
-from extensions import db
+from app.models import Empleado
+from app.extensions import db
 
 def test_empleado_creacion(db_session):
     empleado = Empleado(
@@ -32,3 +32,4 @@ def test_empleado_contrasena_no_lectura():
         assert False, "La contraseña debería lanzar excepción al leerse"
     except AttributeError:
         assert True
+
