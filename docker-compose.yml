@@ -3,30 +3,37 @@ version: "3.9"
 services:
   frontend:
     build: ./rh-react
+    container_name: rh-frontend
     ports:
-      - "5173:80"
+      - "5173:5173"
     depends_on:
       - backend
     networks:
       - app-network
+    stdin_open: true
+    tty: true
 
   backend:
     build: ./rh-flask
+    container_name: rh-backend
     ports:
       - "5000:5000"
     environment:
-      - FLASK_ENV=development
-      - MYSQL_HOST=db
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=admin
-      - MYSQL_DB=empleados_db
+      FLASK_ENV: development
+      MYSQL_HOST: db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: admin
+      MYSQL_DB: empleados_db
     depends_on:
       - db
     networks:
       - app-network
+    stdin_open: true
+    tty: true
 
   db:
     image: mysql:8.0
+    container_name: rh-db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: admin
@@ -39,8 +46,25 @@ services:
     networks:
       - app-network
 
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: rh-jenkins
+    user: root  # importante para Docker-in-Docker
+    privileged: true  # permite usar Docker dentro del container
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock  # esto conecta con Docker del host
+    networks:
+      - app-network
+    environment:
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+
 volumes:
   db_data:
+  jenkins_home:
 
 networks:
   app-network:
