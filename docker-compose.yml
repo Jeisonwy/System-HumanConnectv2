@@ -46,7 +46,7 @@ services:
     networks:
       - app-network
 
-  jenkins:
+  jenkins:        # ✅ AHORA SÍ DENTRO DE "services"
     build: ./jenkins
     container_name: rh-jenkins
     user: root
