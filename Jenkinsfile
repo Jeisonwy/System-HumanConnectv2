@@ -17,15 +17,15 @@ pipeline {
         stage('Build Images') {
             steps {
                 echo 'Construyendo las imágenes Docker...'
-                sh 'docker compose build'
+                sh 'docker-compose build'
             }
         }
 
         stage('Run Containers') {
             steps {
                 echo 'Levantando los contenedores...'
-                sh 'docker compose down'
-                sh 'docker compose up -d'
+                sh 'docker-compose down'
+                sh 'docker-compose up -d'
             }
         }
 

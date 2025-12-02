@@ -59,8 +59,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock  # esto conecta con Docker del host
     networks:
       - app-network
-    environment:
-      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+
 
 volumes:
   db_data:
