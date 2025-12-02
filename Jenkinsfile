@@ -6,6 +6,7 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -32,20 +33,25 @@ pipeline {
         }
 
         stage('Upload to Codecov') {
-    steps {
-        echo 'Enviando coverage a Codecov...'
-        withCredentials([string(credentialsId: 'codecov-token', variable: 'CODECOV_TOKEN')]) {
-            sh '''
-                curl -s https://codecov.io/bash > codecov.sh
-                bash codecov.sh -t $CODECOV_TOKEN -f coverage.xml
-            '''
+            steps {
+                echo 'Enviando coverage a Codecov...'
+                withCredentials([string(credentialsId: 'codecov-token', variable: 'CODECOV_TOKEN')]) {
+                    sh '''
+                        curl -s https://codecov.io/bash > codecov.sh
+                        bash codecov.sh -t $CODECOV_TOKEN -f /app/coverage.xml
+                    '''
+                }
+            }
+        }
+    }  // <- cierre de stages
+
+    post {
+        success {
+            echo 'Pipeline completado con éxito.'
+        }
+        failure {
+            echo 'Fallo en el pipeline.'
         }
     }
 }
 
-
-    post {
-        success { echo 'Pipeline completado con éxito.' }
-        failure { echo 'Fallo en el pipeline.' }
-    }
-}
