@@ -1,6 +1,6 @@
 from flask import Flask
-from .extensions import db, ma
-from .routes.empleados import empleados_bp
+from .extensions import db, migrate, ma, cors
+from .api.empleados import empleados_bp
 from .models import Empleado
 
 def create_app(config_object=None):

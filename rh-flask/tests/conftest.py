@@ -2,9 +2,13 @@ import pytest
 import sys
 import os
 
-# Asegurar que la raíz del proyecto esté en PYTHONPATH
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+# Obtener ruta absoluta de la carpeta donde está tu código real
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
+# Agregar esta carpeta al PYTHONPATH dentro del contenedor
+sys.path.insert(0, BASE_DIR)
+
+# Importar desde rh-flask/app/
 from app import create_app
 
 @pytest.fixture()
@@ -12,6 +16,7 @@ def client():
     app = create_app()
     app.config["TESTING"] = True
     return app.test_client()
+
 
 
     with app.app_context():
