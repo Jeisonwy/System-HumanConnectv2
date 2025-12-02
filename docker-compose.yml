@@ -47,19 +47,18 @@ services:
       - app-network
 
   jenkins:
-    image: jenkins/jenkins:lts
+    build: ./jenkins
     container_name: rh-jenkins
-    user: root  # importante para Docker-in-Docker
-    privileged: true  # permite usar Docker dentro del container
+    user: root
+    privileged: true
     ports:
       - "8080:8080"
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock  # esto conecta con Docker del host
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - app-network
-
 
 volumes:
   db_data:
@@ -68,3 +67,4 @@ volumes:
 networks:
   app-network:
     driver: bridge
+

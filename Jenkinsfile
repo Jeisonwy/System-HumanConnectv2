@@ -24,8 +24,7 @@ pipeline {
         stage('Run Containers') {
             steps {
                 echo 'Levantando los contenedores...'
-                sh 'docker-compose down'
-                sh 'docker-compose up -d'
+                sh 'docker-compose up -d --build frontend backend'
             }
         }
 
