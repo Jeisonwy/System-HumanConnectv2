@@ -1,5 +1,5 @@
 # schemas.py
-from extensions import ma
+from app.extensions import ma
 from models import Empleado
 from marshmallow import fields, validate, post_load, EXCLUDE
 
