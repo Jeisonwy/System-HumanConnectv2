@@ -1,7 +1,8 @@
 from flask import Flask
-from .extensions import db, migrate, ma, cors
+from extensions import db, migrate, ma, cors
 from .api.empleados import empleados_bp
 from .models import Empleado
+from .app import create_app
 
 def create_app(config_object=None):
     app = Flask(__name__)

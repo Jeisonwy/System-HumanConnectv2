@@ -1,14 +1,13 @@
 import pytest
+from app import create_app 
 import sys
 import os
+from app.extensions import db
 
-# Obtener ruta absoluta de la carpeta donde está tu código real
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-# Agregar esta carpeta al PYTHONPATH dentro del contenedor
 sys.path.insert(0, BASE_DIR)
 
-# Importar desde rh-flask/app/
 from app import create_app
 
 @pytest.fixture()

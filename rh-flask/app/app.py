@@ -1,8 +1,8 @@
 # app.py
 import os
 from flask import Flask
-from extensions import db, migrate, ma, cors
-from api.empleados import empleados_bp
+from .extensions import db, migrate, ma, cors
+from .api.empleados import empleados_bp
 
 def create_app():
     app = Flask(__name__)
